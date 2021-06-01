@@ -510,6 +510,7 @@ else
                 /system/bin/pm install -r $POGOusb
                 log_msg 2 "PD, Pogo and RGC installed from USB drive. Updating Init Scripts"
                 sh -x /system/bin/update_mad.sh -pdc -i
+                reboot 
             fi
     fi
 fi
