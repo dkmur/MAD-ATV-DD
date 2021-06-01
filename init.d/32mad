@@ -504,9 +504,9 @@ else
                 sleep 1
                 log_msg 2 "Installing POGODROID from $PDusb"
                 /system/bin/pm install -r $PDusb
-                log_msg 2 "Installing RGC from RGCusb"
+                log_msg 2 "Installing RGC from $RGCusb"
                 /system/bin/pm install -r $RGCusb
-                log_msg 2 "Installing Pokemon from RGCusb"
+                log_msg 2 "Installing Pokemon from $RGCusb"
                 /system/bin/pm install -r $POGOusb
                 log_msg 2 "PD, Pogo and RGC installed from USB drive. Updating Init Scripts"
                 sh -x /system/bin/update_mad.sh -pdc -i
