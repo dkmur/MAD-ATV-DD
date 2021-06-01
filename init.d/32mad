@@ -491,21 +491,25 @@ else
             download https://raw.githubusercontent.com/ColdShadow80/MAD-ATV-DD/main/bin/update_mad.sh /system/bin/update_mad.sh
             chmod +x /system/bin/update_mad.sh
             log_msg 2 "Installed /system/bin/update_mad.sh"
-        fi
-           if [[ -f "/mnt/media_rw/PogoDroid*.apk" && -f "/mnt/media_rw/RGC.apk" && -f "/mnt/media_rw/Pokemon*.apk" ]] ;then
-              log_msg 2 "Pogodroid, RGC and Pokemon Go APKs found in USB drive, starting instal"
-              log_msg 2 "Starting install of POGODROID"
-              /system/bin/pm install -r /mnt/media_rw/PogoDroid*.apk
-              log_msg 2 "Starting install of RGC"
-              /system/bin/pm install -r /mnt/media_rw/RGC.apk
-              log_msg 2 "Starting install of Pokemon"
-              /system/bin/pm install -r /mnt/media_rw/Pokemon*.apk
-              log_msg 2 "Updating Init Scripts"
-              sh -x /system/bin/update_mad.sh -pdc -i
-           else
-               log_msg 2 "Starting install of RGC, PoGo and PD from your madmin wizard"
-               sh -x /system/bin/update_mad.sh -pdc -wa
-           fi
+            fi
+                PDusb="$(find /mnt/media_rw/ -iname PogoDroid*.apk 2>/dev/null)"
+                POGOusb="$(find /mnt/media_rw/ -iname pokemon*.apk 2>/dev/null)"
+                RGCusb="$(find /mnt/media_rw/ -iname rgc.apk 2>/dev/null)"
+                
+                if [[ -z "$PDusb" || -z "$POGOusb" || -z "$RGCusb" ]] ;then
+                log_msg 2 "Starting download and install of RGC, PoGo and PD from your madmin wizard"
+                sh -x /system/bin/update_mad.sh -pdc -wa
+                    else
+                log_msg 2 "Pogodroid, RGC and Pokemon Go APKs found in USB drive, starting instal"
+                log_msg 2 "Starting install of POGODROID from $PDusb"
+                /system/bin/pm install -r $PDusb
+                log_msg 2 "Starting install of RGC from RGCusb"
+                /system/bin/pm install -r $RGCusb
+                log_msg 2 "Starting install of Pokemon from RGCusb"
+                /system/bin/pm install -r $POGOusb
+                log_msg 2 "PD, Pogo and RGC installed from USB drive. Updating Init Scripts"
+                sh -x /system/bin/update_mad.sh -pdc -i
+            fi
     fi
 fi
 mount -o remount,rw /system
